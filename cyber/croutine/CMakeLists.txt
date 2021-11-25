@@ -8,7 +8,8 @@ add_library(cyber_routine_context detail/routine_context.cc detail/swap_x86_64.S
 add_library(cyber_croutine croutine.cc)
 target_link_libraries(cyber_croutine
     Cyber::event
-    Cyber::routine_context)
+    Cyber::routine_context
+    atomic)
 
 add_library(Cyber::croutine ALIAS cyber_croutine)
 add_library(Cyber::routine_context ALIAS cyber_routine_context)

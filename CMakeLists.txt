@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 set(CMAKE_ASM_CREATE_SHARED_LIBRARY "ld <CMAKE_SHARED_LIBRARY_CREATE_ASM_FLAGS>
 <CMAKE_SHARED_LIBRARY_SONAME_ASM_FLAG><TARGET_SONAME> <LINK_FLAGS> -o <TARGET> <OBJECTS> <LINK_LIBRARIES>")
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 option(BUILD_SHARED_LIBS "build as shared library" ON)
 
 set(CYBER_ROOT ${PROJECT_SOURCE_DIR})
@@ -47,7 +47,9 @@ IF(Protobuf_FOUND)
   message(STATUS "Found Protobuf ${PROTOBUF_INCLUDE_DIR} ${PROTOBUF_LIBRARIES}")
 
 include_directories(${PROTOBUF_INCLUDE_DIR})
-link_directories(${PROTOBUF_LIB_DIR})
+#link_directories(${PROTOBUF_LIB_DIR})
+message(STATUS ${PROTOBUF_LIB_DIR})
+#message(FATAL_ERROR)
 
 message(STATUS "Protobuf inc: ${Protobuf_INCLUDE_DIR} lib : ${Protobuf_LIBRARY}")
 
@@ -65,8 +67,8 @@ ENDIF()
 find_package(FastRTPS REQUIRED)
 message(STATUS "Found FastRTPS ${fastrtps_FIND_VERSION}")
 message(STATUS "${fastrtps_LIB_DIR}, ${fastrtps_INCLUDE_DIR}")
-include_directories(${fastrtps_INCLUDE_DIR})
-link_directories(${fastrtps_LIB_DIR})
+include_directories(${FastRTPS_INCLUDE_DIR})
+#link_directories(${fastrtps_LIB_DIR})
 
 #message(FATAL_ERROR "dddddddddddddddd")
 
@@ -76,6 +78,12 @@ link_directories(${fastrtps_LIB_DIR})
 #message(FATAL_ERROR "dddddddddddddddd")
 find_package(Poco REQUIRED COMPONENTS Foundation CONFIG)
 message(STATUS "Found Poco: ${Poco_LIBRARIES}")
+
+find_package(fastcdr REQUIRED CONFIG)
+message(STATUS "Found fastcdr ${fastcdr_FIND_VERSION}")
+message(STATUS "${fastcdr_LIB_DIR}, ${fastcdr_INCLUDE_DIR}")
+include_directories(${fastcdr_INCLUDE_DIR})
+link_directories(${fastcdr_LIB_DIR})
 
   find_package(Glog REQUIRED)
   find_package(Gflags REQUIRED)
