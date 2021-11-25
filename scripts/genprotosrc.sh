@@ -5,23 +5,23 @@ export LD_LIBRARY_PATH=build/local_depends/lib/
 #c++ protobuf
 for i in `ls cyber/proto/*.proto`
 do
-build/local_depends/bin/protoc -I. -Icyber/proto --cpp_out=.  $i
+protoc -I. -Icyber/proto --cpp_out=.  $i
 done
 
 for i in `ls cyber/examples/proto/*.proto`
 do
-build/local_depends/bin/protoc -I. -Icyber/proto --cpp_out=.  $i
+protoc -I. -Icyber/proto --cpp_out=.  $i
 done
 
 #python protobuf
 for i in `ls cyber/proto/*.proto`
 do
-build/local_depends/bin/protoc -I. -Icyber/proto --python_out=.  $i
+protoc -I. -Icyber/proto --python_out=.  $i
 done
 
 for i in `ls cyber/examples/proto/*.proto`
 do
-build/local_depends/bin/protoc -I. -Icyber/proto --python_out=.  $i
+protoc -I. -Icyber/proto --python_out=.  $i
 done
 
 if [ ! -d "./py_proto" ]; then

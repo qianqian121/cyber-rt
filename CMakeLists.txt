@@ -11,10 +11,11 @@ set(CYBER_INSTALL_DIR ${CMAKE_INSTALL_PREFIX}/opt/CyberRT/)
 set(CYBER_INSTALL_BIN_DIR ${CMAKE_INSTALL_PREFIX}/opt/CyberRT/bin)
 set(CYBER_INSTALL_LIB_DIR ${CMAKE_INSTALL_PREFIX}/opt/CyberRT/lib)
 set(CYBER_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/opt/CyberRT/include)
-set(LOCAL_DEPENDS_INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/local_depends )
+#set(LOCAL_DEPENDS_INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/local_depends )
+set(LOCAL_DEPENDS_INSTALL_DIR /usr/local/fast-rtps)
 
-
-set(CMAKE_PREFIX_PATH ${CMAKE_CURRENT_BINARY_DIR}/local_depends)
+#set(CMAKE_PREFIX_PATH ${CMAKE_CURRENT_BINARY_DIR}/local_depends)
+set(CMAKE_PREFIX_PATH /usr/local/fast-rtps "${CMAKE_PREFIX_PATH}")
 
 if (${CMAKE_VERSION} VERSION_LESS "3.15.0")
   set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake "${CMAKE_MODULE_PATH}")
@@ -25,25 +26,64 @@ endif()
 message(STATUS "CMake Prefix Path: ${CMAKE_PREFIX_PATH}")
 message(STATUS "CMake Module Path: ${CMAKE_MODULE_PATH}")
 
-include(cmake/external/glog-0.3.5.cmake)
-include(cmake/external/gflags-2.2.0.cmake)
-include(cmake/external/Fast-RTSP-1.5.0.cmake)
-include(cmake/external/protobuf-3.3.0.cmake)
+#include(cmake/external/glog-0.3.5.cmake)
+#include(cmake/external/gflags-2.2.0.cmake)
+#include(cmake/external/Fast-RTSP-1.5.0.cmake)
+#include(cmake/external/protobuf-3.3.0.cmake)
 
 project(Cyber VERSION 1.0.0 LANGUAGES C CXX ASM)
 
-if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/local_depends/lib")
+#if (EXISTS "${CMAKE_CURRENT_BINARY_DIR}/local_depends/lib")
 
   message(STATUS "Build cyber")
-  find_package(FastRTPS 1.5.0 REQUIRED)
+#include dependencies
+
+find_package(Protobuf REQUIRED)
+
+IF(Protobuf_FOUND)
+    MESSAGE("Protobuf_VERSION:${Protobuf_VERSION}")
+    MESSAGE("PROTOBUF_LIBRARIES:${PROTOBUF_LIBRARIES}")
+    MESSAGE("Protobuf_INCLUDE_DIRS:${Protobuf_INCLUDE_DIRS}")
+  message(STATUS "Found Protobuf ${PROTOBUF_INCLUDE_DIR} ${PROTOBUF_LIBRARIES}")
+
+include_directories(${PROTOBUF_INCLUDE_DIR})
+link_directories(${PROTOBUF_LIB_DIR})
+
+message(STATUS "Protobuf inc: ${Protobuf_INCLUDE_DIR} lib : ${Protobuf_LIBRARY}")
+
+
+    if (NOT TARGET Protobuf::libprotobuf)
+        add_library(Protobuf::libprotobuf INTERFACE IMPORTED)
+        target_link_libraries(Protobuf::libprotobuf INTERFACE ${Protobuf_LIBRARY})
+        target_include_directories(Protobuf::libprotobuf INTERFACE ${Protobuf_INCLUDE_DIR})
+    endif()
+
+ENDIF()
+
+#message(FATAL_ERROR "dddddddddddddddd")
+
+find_package(FastRTPS REQUIRED)
+message(STATUS "Found FastRTPS ${fastrtps_FIND_VERSION}")
+message(STATUS "${fastrtps_LIB_DIR}, ${fastrtps_INCLUDE_DIR}")
+include_directories(${fastrtps_INCLUDE_DIR})
+link_directories(${fastrtps_LIB_DIR})
+
+#message(FATAL_ERROR "dddddddddddddddd")
+
+#add_library(FastRTPS::fastrtps INTERFACE IMPORTED)
+#target_link_libraries(FastRTPS::fastrtps INTERFACE ${FastRTPS_LIBRARY})
+#target_include_directories(FastRTPS::fastrtps INTERFACE ${FastRTPS_INCLUDE_DIR})
+#message(FATAL_ERROR "dddddddddddddddd")
+find_package(Poco REQUIRED COMPONENTS Foundation CONFIG)
+message(STATUS "Found Poco: ${Poco_LIBRARIES}")
+
   find_package(Glog REQUIRED)
   find_package(Gflags REQUIRED)
-  find_package(Protobuf REQUIRED)
 
   include_directories(
     PUBLIC
     ${PROJECT_SOURCE_DIR}/
-    ${CMAKE_CURRENT_BINARY_DIR}/local_depends/include/
+#    ${CMAKE_CURRENT_BINARY_DIR}/local_depends/include/
   )
 
 add_subdirectory(cyber/base)
@@ -76,7 +116,7 @@ add_subdirectory(cyber/tools/cyber_monitor)
 add_subdirectory(cyber/tools/cyber_recorder)
 
 
-endif()
+#endif()
 
 configure_file(CyberConfig.cmake.in
     "${PROJECT_BINARY_DIR}/CyberConfig.cmake" @ONLY)
