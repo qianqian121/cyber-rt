@@ -2,3 +2,9 @@
 *.swp
 build/
 tmp/
+.idea/
+cmake-build-debug/
+*pb.h
+*pb.cc
+*pb2.py
+__init__.py
