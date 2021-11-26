@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 project(CyberCommon)
 
 add_library(cyber_file file.cc)
-target_include_directories(cyber_file PUBLIC  ${Protobuf_INCLUDE_DIR})
+target_include_directories(cyber_file PUBLIC ${PROTOBUF_INCLUDE_DIRS})
 target_link_libraries(cyber_file Protobuf::libprotobuf)
 
 add_library(cyber_global_data SHARED global_data.cc)

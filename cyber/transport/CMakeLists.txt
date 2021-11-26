@@ -112,7 +112,7 @@ install(FILES ${HEADERS}
     DESTINATION ${CYBER_INSTALL_INCLUDE_DIR}/cyber/transport/
     )
 
-install(DIRECTORY common dispatcher message qos rtps shm transceiver transmitter
+install(DIRECTORY common dispatcher message qos receiver rtps shm transceiver transmitter
     DESTINATION ${CYBER_INSTALL_INCLUDE_DIR}/cyber/transport/
     FILES_MATCHING PATTERN "*.h"
     )

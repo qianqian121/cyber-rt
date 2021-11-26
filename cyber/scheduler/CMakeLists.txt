@@ -49,6 +49,11 @@ install(FILES ${HEADERS}
     DESTINATION ${CYBER_INSTALL_INCLUDE_DIR}/cyber/scheduler/
     )
 
+install(DIRECTORY common policy
+    DESTINATION ${CYBER_INSTALL_INCLUDE_DIR}/cyber/scheduler/
+    FILES_MATCHING PATTERN "*.h"
+    )
+
 install(TARGETS cyber_scheduler
     cyber_scheduler_factory
     cyber_scheduler

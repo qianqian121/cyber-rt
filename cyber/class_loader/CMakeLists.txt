@@ -16,11 +16,16 @@ add_library(Cyber::class_loader_manager ALIAS cyber_class_loader_manager)
 add_library(Cyber::class_factory ALIAS cyber_class_factory)
 add_library(Cyber::class_loader_utility ALIAS cyber_class_loader_utility)
 
-file(GLOB HEADERS *.h utility/*.h)
-
+file(GLOB HEADERS *.h)
+#message(FATAL_ERROR ${HEADERS})
 install(FILES ${HEADERS}
     COMPONENT ${PROJECT_NAME}
     DESTINATION ${CYBER_INSTALL_INCLUDE_DIR}/cyber/class_loader/
+    )
+
+install(DIRECTORY utility
+    DESTINATION ${CYBER_INSTALL_INCLUDE_DIR}/cyber/class_loader/
+    FILES_MATCHING PATTERN "*.h"
     )
 
 install(TARGETS cyber_class_loader

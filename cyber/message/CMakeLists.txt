@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 project(CyberMessage)
 
 add_library(cyber_protobuf_factory protobuf_factory.cc)
-target_link_libraries(cyber_protobuf_factory cyber_proto_desc)
+target_link_libraries(cyber_protobuf_factory Cyber::proto_desc)
 
 add_library(message_traits INTERFACE)
 add_library(protobuf_traits INTERFACE)

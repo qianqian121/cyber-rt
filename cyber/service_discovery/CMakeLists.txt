@@ -13,7 +13,7 @@ target_link_libraries(cyber_topology_manager
     Cyber::transport
     Cyber::participant
     Cyber::node_manager
-    cyber_topology_change
+    Cyber::topology_change
     )
 
 add_dependencies(cyber_topology_manager FastRTPS::fastrtps)
@@ -52,7 +52,7 @@ target_link_libraries(cyber_node_manager INTERFACE FastRTPS::fastrtps)
 add_library(cyber_service_manager specific_manager/service_manager.cc)
 #add_dependencies(cyber_service_manager fastrtps)
 target_link_libraries(cyber_service_manager
-    cyber_qos_profile
+    Cyber::qos_profile
     Cyber::manager
     Cyber::role
     Cyber::transport
@@ -76,6 +76,11 @@ file( GLOB HEADERS *.h communication/*.h container/*.h role/*.h  specific_manage
 
 install(FILES ${HEADERS}
     DESTINATION ${CYBER_INSTALL_INCLUDE_DIR}/cyber/service_discovery/
+    )
+
+install(DIRECTORY communication container role specific_manager
+    DESTINATION ${CYBER_INSTALL_INCLUDE_DIR}/cyber/service_discovery/
+    FILES_MATCHING PATTERN "*.h"
     )
 
 install(TARGETS

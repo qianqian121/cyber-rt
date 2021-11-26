@@ -20,6 +20,11 @@ install(FILES ${HEADERS}
     DESTINATION ${CYBER_INSTALL_INCLUDE_DIR}/cyber/croutine/
     )
 
+install(DIRECTORY detail
+    DESTINATION ${CYBER_INSTALL_INCLUDE_DIR}/cyber/croutine/
+    FILES_MATCHING PATTERN "*.h"
+    )
+
 install(TARGETS
     cyber_croutine
     cyber_routine_context
