@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(CyberCore)
 
+add_library(cyber cyber.cc)
 add_library(cyber_core cyber.cc)
 
 add_library(cyber_init init.cc)
@@ -29,7 +30,7 @@ install(FILES ${HEADERS}
     )
 
 install(TARGETS
-    cyber_core cyber_init cyber_state
+    cyber cyber_core cyber_init cyber_state
     DESTINATION  ${CYBER_INSTALL_LIB_DIR}
     )
 
